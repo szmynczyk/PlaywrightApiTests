@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace PlaywrightApiTests.Models
+﻿namespace PlaywrightApiTests.Models
 {
     internal class TokenResponse
     {

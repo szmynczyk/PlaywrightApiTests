@@ -8,6 +8,7 @@ namespace PlaywrightApiTests.Clients
     {
         protected IPlaywright? playwright;
         protected ILog logger;
+        public abstract string BaseUrl { get; }
 
         public ApiClientBase()
         {

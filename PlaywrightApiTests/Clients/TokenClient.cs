@@ -10,6 +10,8 @@ namespace PlaywrightApiTests.Clients
             { "Content-Type", "application/json" }
         };
 
+        public override string BaseUrl { get => "https://restful-booker.herokuapp.com/"; }
+
         internal async Task<ApiResponse<TokenResponse>?> GetTokenSimple()
         {
             var data = new Dictionary<string, string>()
@@ -36,7 +38,7 @@ namespace PlaywrightApiTests.Clients
         {
             var request = await playwright.APIRequest.NewContextAsync(new()
             {
-                BaseURL = "https://restful-booker.herokuapp.com/"
+                BaseURL = BaseUrl
             });
 
             var response = await request.PostAsync("auth", new APIRequestContextOptions()

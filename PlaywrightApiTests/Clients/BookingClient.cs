@@ -4,7 +4,7 @@ namespace PlaywrightApiTests.Clients
 {
     internal class BookingClient : ApiClientBase
     {
-        const string BaseUrl = "https://restful-booker.herokuapp.com/";
+        public override string BaseUrl => "https://restful-booker.herokuapp.com/";
 
         public async Task<ApiResponse<List<BookingIdsResponse>>?> GetBookingIds()
         {
