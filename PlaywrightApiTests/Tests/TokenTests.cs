@@ -1,5 +1,4 @@
 using PlaywrightApiTests.Clients;
-using PlaywrightApiTests.Models;
 
 namespace PlaywrightApiTests.Tests
 {
@@ -16,16 +15,15 @@ namespace PlaywrightApiTests.Tests
         [Test]
         public async Task GetTokenReturnsProperToken()
         {
-            TokenResponse? jsonResponse = await _client.GetToken();
-            Assert.That(jsonResponse.Token, Is.Not.Empty);
+            var jsonResponse = await _client.GetTokenSimple();
+            Assert.That(jsonResponse.Data.Token, Is.Not.Empty);
         }
 
         [Test]
         public async Task GetTokenWithSerializedBodyReturnsProperToken()
         {
-            TokenResponse? jsonResponse = await _client.GetTokenSerialized();
-
-            Assert.That(jsonResponse.Token, Is.Not.Empty);
+            var jsonResponse = await _client.GetTokenSerialized();
+            Assert.That(jsonResponse.Data.Token, Is.Not.Empty);
         }
     }
 }

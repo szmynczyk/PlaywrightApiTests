@@ -1,10 +1,10 @@
-﻿using log4net.Config;
-using log4net;
+﻿using log4net;
+using log4net.Config;
 using Microsoft.Playwright;
 
 namespace PlaywrightApiTests.Clients
 {
-    internal class ApiClientBase
+    internal abstract class ApiClientBase
     {
         protected IPlaywright? playwright;
         protected ILog logger;

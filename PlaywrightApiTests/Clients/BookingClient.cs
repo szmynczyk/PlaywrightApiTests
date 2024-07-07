@@ -4,15 +4,19 @@ namespace PlaywrightApiTests.Clients
 {
     internal class BookingClient : ApiClientBase
     {
-        public async Task<List<BookingResponse>?> GetBookings()
+        const string BaseUrl = "https://restful-booker.herokuapp.com/";
+
+        public async Task<ApiResponse<List<BookingIdsResponse>>?> GetBookingIds()
         {
             var request = await playwright.APIRequest.NewContextAsync(new()
             {
-                BaseURL = "https://restful-booker.herokuapp.com/"
+                BaseURL = BaseUrl
             });
 
             var response = await request.GetAsync("booking");
-            return await response.JsonAsync<List<BookingResponse>>();
+            var serializedResponse = await ApiResponse<List<BookingIdsResponse>>.SerializeResponse(response);
+
+            return serializedResponse;
         }
     }
 }

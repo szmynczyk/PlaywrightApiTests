@@ -15,9 +15,12 @@ namespace PlaywrightApiTests.Tests
         [Test]
         public async Task GetBookingReturnsListOfBookings()
         {
-            var response = await _client.GetBookings();
+            var response = await _client.GetBookingIds();
             Assert.That(response, Is.Not.Null);
-            Assert.That(response, Is.Not.Empty);
+            
+            Assert.That(response.ErrorContent, Is.Null);
+            Assert.That(response.Data, Is.Not.Null);
+            Assert.That(response.Data, Is.Not.Empty);
         }
     }
 }

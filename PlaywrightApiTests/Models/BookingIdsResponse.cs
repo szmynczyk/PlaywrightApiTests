@@ -2,7 +2,7 @@
 
 namespace PlaywrightApiTests.Models
 {
-    internal class BookingResponse
+    internal class BookingIdsResponse
     {
         [JsonPropertyName("bookingid")]
         public int BookingId { get; set; }

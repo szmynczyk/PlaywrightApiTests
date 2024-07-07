@@ -1,73 +1,51 @@
 ﻿using Microsoft.Playwright;
 using PlaywrightApiTests.Models;
-using System.Text.Json;
 
 namespace PlaywrightApiTests.Clients
 {
     internal class TokenClient : ApiClientBase
     {
-        internal async Task<TokenResponse?> GetToken()
+        Dictionary<string, string> headers = new Dictionary<string, string>
         {
-            var headers = new Dictionary<string, string>
-            {
-                { "Content-Type", "application/json" }
-            };
+            { "Content-Type", "application/json" }
+        };
 
-            var request = await playwright.APIRequest.NewContextAsync(new()
-            {
-                BaseURL = "https://restful-booker.herokuapp.com/"
-            });
-
+        internal async Task<ApiResponse<TokenResponse>?> GetTokenSimple()
+        {
             var data = new Dictionary<string, string>()
             {
                 { "username", "admin" },
                 { "password", "password123" }
             };
 
-            var response = await request.PostAsync("auth", new APIRequestContextOptions()
-            {
-                DataObject = data,
-                Headers = headers
-            });
-
-            var jsonResponse = await response.JsonAsync<TokenResponse>(new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return jsonResponse;
+            return await GetToken(data);
         }
 
-        internal async Task<TokenResponse?> GetTokenSerialized()
+        internal async Task<ApiResponse<TokenResponse>?> GetTokenSerialized()
         {
-            var headers = new Dictionary<string, string>
-            {
-                { "Content-Type", "application/json" }
-            };
-
-            var request = await playwright.APIRequest.NewContextAsync(new()
-            {
-                BaseURL = "https://restful-booker.herokuapp.com/"
-            });
-
             var data = new TokenRequest()
             {
                 UserName = "admin",
                 Password = "password123"
             };
 
+            return await GetToken(data);
+        }
+        
+        internal async Task<ApiResponse<TokenResponse>?> GetToken(object data)
+        {
+            var request = await playwright.APIRequest.NewContextAsync(new()
+            {
+                BaseURL = "https://restful-booker.herokuapp.com/"
+            });
+
             var response = await request.PostAsync("auth", new APIRequestContextOptions()
             {
                 DataObject = data,
                 Headers = headers
             });
 
-            var jsonResponse = await response.JsonAsync<TokenResponse>(new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return jsonResponse;
+            return await ApiResponse<TokenResponse>.SerializeResponse(response);
         }
     }
 }
