@@ -18,5 +18,18 @@ namespace PlaywrightApiTests.Clients
 
             return serializedResponse;
         }
+
+        public async Task<ApiResponse<BookingResponse>?> GetBooking(int bookingId)
+        {
+            var request = await playwright.APIRequest.NewContextAsync(new()
+            {
+                BaseURL = BaseUrl
+            });
+
+            var response = await request.GetAsync($"booking/{bookingId}");
+            var serializedResponse = await ApiResponse<BookingResponse>.SerializeResponse(response);
+
+            return serializedResponse;
+        }
     }
 }

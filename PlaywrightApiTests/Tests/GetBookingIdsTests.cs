@@ -2,7 +2,7 @@
 
 namespace PlaywrightApiTests.Tests
 {
-    internal class GetBookingsTests
+    internal class GetBookingIdsTests
     {
         BookingClient _client;
 
@@ -13,11 +13,11 @@ namespace PlaywrightApiTests.Tests
         }
 
         [Test]
-        public async Task GetBookingReturnsListOfBookings()
+        public async Task GetBookingIdsReturnsListOfBookingIds()
         {
             var response = await _client.GetBookingIds();
-            Assert.That(response, Is.Not.Null);
             
+            Assert.That(response, Is.Not.Null);
             Assert.That(response.ErrorContent, Is.Null);
             Assert.That(response.Data, Is.Not.Null);
             Assert.That(response.Data, Is.Not.Empty);
