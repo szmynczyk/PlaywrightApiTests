@@ -1,48 +1,12 @@
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using PlaywrightApiTests.Models;
 using System.Text.Json;
 
-namespace PlaywrightApiTests
+namespace PlaywrightApiTests.Clients
 {
-    public class Tests
+    internal class TokenClient : ApiClientBase
     {
-        IPlaywright playwright;
-
-        [SetUp]
-        public async Task Setup()
-        {
-            playwright = await Playwright.CreateAsync();
-        }
-
-        [Test]
-        public async Task GetTokenReturnsProperToken()
-        {
-            TokenResponse? jsonResponse = await GetToken();
-
-            Assert.That(jsonResponse.Token, Is.Not.Empty);
-        }
-        
-        [Test]
-        public async Task GetTokenWithSerializedBodyReturnsProperToken()
-        {
-            TokenResponse? jsonResponse = await GetTokenSerialized();
-
-            Assert.That(jsonResponse.Token, Is.Not.Empty);
-        }
-        
-        [Test]
-        public async Task GetBookingReturnsListOfBookings()
-        {
-            var request = await playwright.APIRequest.NewContextAsync(new()
-            {
-                BaseURL = "https://restful-booker.herokuapp.com/"
-            });
-
-            var response = await request.GetAsync("booking");
-            var bookings = await response.JsonAsync<List<BookingResponse>>();
-            Assert.That(bookings.Count, Is.GreaterThan(0));
-        }
-
-        private async Task<TokenResponse?> GetToken()
+        internal async Task<TokenResponse?> GetToken()
         {
             var headers = new Dictionary<string, string>
             {
@@ -70,11 +34,11 @@ namespace PlaywrightApiTests
             {
                 PropertyNameCaseInsensitive = true
             });
-            
+
             return jsonResponse;
         }
 
-        private async Task<TokenResponse?> GetTokenSerialized()
+        internal async Task<TokenResponse?> GetTokenSerialized()
         {
             var headers = new Dictionary<string, string>
             {
