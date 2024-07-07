@@ -12,13 +12,8 @@ namespace PlaywrightApiTests.Clients
 
         public ApiClientBase()
         {
-            Setup();
-            playwright = InitializePlaywright();
-        }
-
-        public static void Setup()
-        {
             BasicConfigurator.Configure();
+            playwright = InitializePlaywright();
         }
 
         public IPlaywright InitializePlaywright() => Playwright.CreateAsync().Result;

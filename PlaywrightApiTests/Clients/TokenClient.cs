@@ -1,10 +1,20 @@
-﻿using Microsoft.Playwright;
+﻿using log4net;
+using Microsoft.Playwright;
+using PlaywrightApiTests.Helpers;
 using PlaywrightApiTests.Models;
 
 namespace PlaywrightApiTests.Clients
 {
     internal class TokenClient : ApiClientBase
     {
+        private readonly LoggingHelper _loggingHelper;
+
+        public TokenClient()
+        {
+            logger = LogManager.GetLogger(typeof(TokenClient));
+            _loggingHelper = new LoggingHelper(logger);
+        }
+
         Dictionary<string, string> headers = new Dictionary<string, string>
         {
             { "Content-Type", "application/json" }
@@ -41,11 +51,15 @@ namespace PlaywrightApiTests.Clients
                 BaseURL = BaseUrl
             });
 
+            _loggingHelper.LogRequest("Token request", HttpMethod.Post, $"{BaseUrl}auth", headers, data);
+
             var response = await request.PostAsync("auth", new APIRequestContextOptions()
             {
                 DataObject = data,
                 Headers = headers
             });
+
+            await _loggingHelper.LogResponse("Get token response", response);
 
             return await ApiResponse<TokenResponse>.SerializeResponse(response);
         }
