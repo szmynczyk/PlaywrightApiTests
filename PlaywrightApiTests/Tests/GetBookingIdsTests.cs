@@ -1,4 +1,5 @@
 ﻿using PlaywrightApiTests.Clients;
+using PlaywrightApiTests.Helpers;
 
 namespace PlaywrightApiTests.Tests
 {
@@ -17,10 +18,7 @@ namespace PlaywrightApiTests.Tests
         {
             var response = await _client.GetBookingIds();
             
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response.ErrorContent, Is.Null);
-            Assert.That(response.Data, Is.Not.Null);
-            Assert.That(response.Data, Is.Not.Empty);
+            ResponseVerifier.SimpleVerifyProperResponse(response);
         }
     }
 }

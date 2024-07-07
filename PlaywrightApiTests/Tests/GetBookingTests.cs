@@ -1,5 +1,5 @@
 ﻿using PlaywrightApiTests.Clients;
-using PlaywrightApiTests.Models;
+using PlaywrightApiTests.Helpers;
 
 namespace PlaywrightApiTests.Tests
 {
@@ -20,10 +20,7 @@ namespace PlaywrightApiTests.Tests
 
             var response = await _client.GetBooking(bookingId);
             
-            Assert.That(response, Is.Not.Null);
-            Assert.That(response.ErrorContent, Is.Null);
-            Assert.That(response.Data, Is.TypeOf(typeof(BookingResponse)));
-            Assert.That(response.Data.FirstName, Is.Not.Empty);
+            ResponseVerifier.SimpleVerifyProperResponse(response);
         }
     }
 }
