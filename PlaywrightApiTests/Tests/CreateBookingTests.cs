@@ -15,7 +15,7 @@ namespace PlaywrightApiTests.Tests
 		}
 
 		[Test]
-		public async Task SuccessfulCreateBooking()
+		public async Task SuccessfulCreateBookingSimple()
 		{
 			var booking = new BookingModel
 			{

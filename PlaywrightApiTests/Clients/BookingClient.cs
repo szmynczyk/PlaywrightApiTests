@@ -78,5 +78,38 @@ namespace PlaywrightApiTests.Clients
 
 			return serializedResponse;
 		}
+
+		public async Task<ApiResponse<CreateBookingResponse>?> PartiallyUpdateBooking(int bookingId,
+			Dictionary<string, string> propertiesToUpdate)
+		{
+			var tokenClient = new TokenClient();
+			var token = (await tokenClient.GetTokenSimple()).Data.Token;
+
+			Dictionary<string, string> headers = new()
+			{
+				{ "Content-Type", "application/json" },
+				{ "Accept", "application/json" },
+				{ "Cookie", $"token={token}"}
+			};
+
+			var request = await playwright.APIRequest.NewContextAsync(new()
+			{
+				BaseURL = BaseUrl
+			});
+
+			_loggingHelper.LogRequest("Patch booking request", HttpMethod.Patch, $"{BaseUrl}booking/{bookingId}", headers, propertiesToUpdate);
+
+			var response = await request.PatchAsync($"booking/{bookingId}", new APIRequestContextOptions()
+			{
+				DataObject = propertiesToUpdate,
+				Headers = headers
+			});
+
+			await _loggingHelper.LogResponse("Patch booking response", response);
+
+			var serializedResponse = await ApiResponse<CreateBookingResponse>.SerializeResponse(response);
+
+			return serializedResponse;
+		}
 	}
 }
