@@ -1,0 +1,14 @@
+[
+  {
+	"bookingId": 284,
+	"propertyName": "firstname",
+	"propertyValue": "Klaudiusz",
+	"result": true
+  },
+  {
+	"bookingId": 285,
+	"propertyName": "firstname",
+	"propertyValue": "Ferdynand",
+	"result":  false
+  }
+]

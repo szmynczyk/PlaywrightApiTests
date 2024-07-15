@@ -1,5 +1,7 @@
 ﻿using PlaywrightApiTests.Clients;
 using PlaywrightApiTests.Helpers;
+using PlaywrightApiTests.TestData;
+using System.Text.Json;
 
 namespace PlaywrightApiTests.Tests
 {
@@ -60,5 +62,31 @@ namespace PlaywrightApiTests.Tests
 			new object[] { 1289, "firstname", "Klaudiusz", true },
 			new object[] { 1290, "firstname", "Klaudiusz", false }
 		};
+
+		[TestCaseSource(nameof(GetTestData))]
+		public async Task PartiallyUpdateBookingFile(PatchBookingTestData testData)
+		{
+			var propertiesToChange = new Dictionary<string, string>()
+			{
+				{ testData.PropertyName, testData.PropertyValue }
+			};
+
+			var response = await _client.PartiallyUpdateBooking(testData.BookingId, propertiesToChange);
+
+			Assert.That(response.IsSuccess, Is.EqualTo(testData.Result));
+		}
+
+
+		public static IEnumerable<PatchBookingTestData> GetTestData()
+		{
+			using StreamReader r = new StreamReader("TestData/patchTestData.json");
+			string json = r.ReadToEnd();
+			var serializedTestData = JsonSerializer.Deserialize<List<PatchBookingTestData>>(json, new JsonSerializerOptions()
+			{
+				PropertyNameCaseInsensitive = true
+			});
+
+			return serializedTestData;
+		}
 	}
 }
